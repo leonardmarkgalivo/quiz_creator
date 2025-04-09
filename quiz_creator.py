@@ -2,22 +2,27 @@ import tkinter as tk
 
 #Added save function and file write
 def save_question():
-    question = entry_question.get()
-    a = entry_a.get()
-    b = entry_b.get()
-    c = entry_c.get()
-    d = entry_d.get()
+    # Get the user's input 
+    question = entry_question.get().strip()
+    choice_a = entry_a.get().strip()
+    choice_b = entry_b.get().strip()
+    choice_c = entry_c.get().strip()
+    choice_d = entry_d.get().strip()
     correct = entry_correct.get().strip().lower()
 
-    if question == "" or a == "" or b == "" or c == "" or d == "" or correct not in ['a', 'b', 'c', 'd']:
-        messagebox.showwarning("Incomplete", "All fields must be filled and correct")
+    # Check if any field is empty or if the correct answer is not one of a, b, c, d
+    if (question == "" or choice_a == "" or choice_b == "" or 
+        choice_c == "" or choice_d == "" or correct not in ['a', 'b', 'c', 'd']):
+        messagebox.showwarning("Incomplete", 
+            "Fill in all fields and use a, b, c, or d as the correct answer.")
     else:
+        # Write the data to a file
         with open("quiz_data.txt", "a") as file:
             file.write("Question: " + question + "\n")
-            file.write("a. " + a + "\n")
-            file.write("b. " + b + "\n")
-            file.write("c. " + c + "\n")
-            file.write("d. " + d + "\n")
+            file.write("a. " + choice_a + "\n")
+            file.write("b. " + choice_b + "\n")
+            file.write("c. " + choice_c + "\n")
+            file.write("d. " + choice_d + "\n")
             file.write("Correct answer: " + correct + "\n")
             file.write("-" * 40 + "\n")
 
