@@ -7,7 +7,7 @@ def save_question():
     b = entry_b.get()
     c = entry_c.get()
     d = entry_d.get()
-    correct = entry_correct.get()
+    correct = entry_correct.get().strip().lower()
 
     if question == "" or a == "" or b == "" or c == "" or d == "" or correct not in ['a', 'b', 'c', 'd']:
         messagebox.showwarning("Incomplete", "All fields must be filled and correct")
