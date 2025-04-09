@@ -1,5 +1,23 @@
 import tkinter as tk
 
+#Added save function and file write
+def save_question():
+    question = entry_question.get()
+    a = entry_a.get()
+    b = entry_b.get()
+    c = entry_c.get()
+    d = entry_d.get()
+    correct = entry_correct.get()
+
+    with open("quiz_data.txt", "a") as file:
+        file.write("Question: " + question + "\n")
+        file.write("a. " + a + "\n")
+        file.write("b. " + b + "\n")
+        file.write("c. " + c + "\n")
+        file.write("d. " + d + "\n")
+        file.write("Correct answer: " + correct + "\n")
+        file.write("-" * 40 + "\n")
+
 #Main window
 window = tk.Tk()
 window.title("Quiz Creator")
