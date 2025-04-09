@@ -21,6 +21,16 @@ def save_question():
             file.write("Correct answer: " + correct + "\n")
             file.write("-" * 40 + "\n")
 
+        messagebox.showinfo("Saved", "Question saved!")
+
+        #Clear entry field
+        entry_question.delete(0, tk.END)
+        entry_a.delete(0, tk.END)
+        entry_b.delete(0, tk.END)
+        entry_c.delete(0, tk.END)
+        entry_d.delete(0, tk.END)
+        entry_correct.delete(0, tk.END)
+
 #Main window
 window = tk.Tk()
 window.title("Quiz Creator")
@@ -52,8 +62,6 @@ entry_correct = tk.Entry(window)
 entry_correct.pack()
 
 tk.Button(window, text="Save Question").pack()
-
-window.mainloop()
 
 #Loop
 window.mainloop()
