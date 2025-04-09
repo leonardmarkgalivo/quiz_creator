@@ -9,14 +9,17 @@ def save_question():
     d = entry_d.get()
     correct = entry_correct.get()
 
-    with open("quiz_data.txt", "a") as file:
-        file.write("Question: " + question + "\n")
-        file.write("a. " + a + "\n")
-        file.write("b. " + b + "\n")
-        file.write("c. " + c + "\n")
-        file.write("d. " + d + "\n")
-        file.write("Correct answer: " + correct + "\n")
-        file.write("-" * 40 + "\n")
+    if question == "" or a == "" or b == "" or c == "" or d == "" or correct not in ['a', 'b', 'c', 'd']:
+        messagebox.showwarning("Incomplete", "All fields must be filled and correct")
+    else:
+        with open("quiz_data.txt", "a") as file:
+            file.write("Question: " + question + "\n")
+            file.write("a. " + a + "\n")
+            file.write("b. " + b + "\n")
+            file.write("c. " + c + "\n")
+            file.write("d. " + d + "\n")
+            file.write("Correct answer: " + correct + "\n")
+            file.write("-" * 40 + "\n")
 
 #Main window
 window = tk.Tk()
