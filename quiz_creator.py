@@ -1,25 +1,74 @@
-#BEGIN
+import tkinter as tk
+from tkinter import messagebox
 
-#Display a window with two options: [Create Quiz] and [Take Quiz]
+# Save function and file write
+def save_question():
+    # Get the user's input 
+    question = entry_question.get().strip()
+    choice_a = entry_a.get().strip()
+    choice_b = entry_b.get().strip()
+    choice_c = entry_c.get().strip()
+    choice_d = entry_d.get().strip()
+    correct = entry_correct.get().strip().lower()
 
-#IF user clicks "Create Quiz":
-    #Repeat the following steps for each question entry:
-        #1. Ask the user to type the quiz question
-        #2. Ask the user to enter choices for a, b, c, and d
-        #3. Ask the user to specify the correct answer (a, b, c, or d)
-        #4. Append the question, choices, and correct answer to a text file in a structured format
-        #5. Provide an option to go back to the main menu
+    # Validate inputs
+    if (question == "" or choice_a == "" or choice_b == "" or 
+        choice_c == "" or choice_d == "" or correct not in ['a', 'b', 'c', 'd']):
+        messagebox.showwarning("Incomplete", 
+            "Fill in all fields and use a, b, c, or d as the correct answer.")
+    else:
+        # Write data to a file
+        with open("quiz_data.txt", "a") as file:
+            file.write("Question: " + question + "\n")
+            file.write("a. " + choice_a + "\n")
+            file.write("b. " + choice_b + "\n")
+            file.write("c. " + choice_c + "\n")
+            file.write("d. " + choice_d + "\n")
+            file.write("Correct answer: " + correct + "\n")
+            file.write("-" * 40 + "\n")
 
-#IF user clicks "Take Quiz":
-    #1. Read all questions, choices, and answers from the text file
-    #2. Shuffle the list of questions randomly
-    #3. For each question:
-        #a. Display the question and choices on the screen
-        #b. Wait for the user to click their answer (a, b, c, or d)
-        #c. Check if the chosen answer matches the correct one
-        #d. Keep track of the number of correct answers
-    #4. After all questions are answered, display the final score 
+        messagebox.showinfo("Saved", "Question saved!")
 
-#Provide a "Back to Menu" button in both modes to return to the main screen
+        # Clear entry fields
+        entry_question.delete(0, tk.END)
+        entry_a.delete(0, tk.END)
+        entry_b.delete(0, tk.END)
+        entry_c.delete(0, tk.END)
+        entry_d.delete(0, tk.END)
+        entry_correct.delete(0, tk.END)
 
-#END
+# Main window setup
+window = tk.Tk()
+window.title("Quiz Creator")
+window.geometry("500x500")
+
+# Labels and Entry Fields
+tk.Label(window, text="Enter your question:").pack(pady=5)
+entry_question = tk.Entry(window, width=50)
+entry_question.pack()
+
+tk.Label(window, text="Choice a:").pack()
+entry_a = tk.Entry(window, width=50)
+entry_a.pack()
+
+tk.Label(window, text="Choice b:").pack()
+entry_b = tk.Entry(window, width=50)
+entry_b.pack()
+
+tk.Label(window, text="Choice c:").pack()
+entry_c = tk.Entry(window, width=50)
+entry_c.pack()
+
+tk.Label(window, text="Choice d:").pack()
+entry_d = tk.Entry(window, width=50)
+entry_d.pack()
+
+tk.Label(window, text="Correct answer (a/b/c/d):").pack()
+entry_correct = tk.Entry(window, width=50)
+entry_correct.pack()
+
+# Save Button
+tk.Button(window, text="Save Question", command=save_question).pack(pady=10)
+
+# Main loop
+window.mainloop()
