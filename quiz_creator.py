@@ -92,13 +92,63 @@ def open_quiz_taker():
             tk.Label(quiz_window, text="No questions found. Please create a quiz first.").pack(pady=20)
             return
 
-        # Debug output to verify parsing
-        for idx, (q, choices, correct) in enumerate(questions):
-            tk.Label(quiz_window, text=f"Q{idx+1}: {q}").pack()
-            for k in ['a', 'b', 'c', 'd']:
-                tk.Label(quiz_window, text=f"{k}. {choices[k]}").pack()
-            tk.Label(quiz_window, text=f"Correct: {correct}").pack()
-            tk.Label(quiz_window, text="-"*30).pack()
+        # Shuffle questions
+        random.shuffle(questions)
+        current_index = tk.IntVar(value=0)
+        score = tk.IntVar(value=0)
+
+        def show_question():
+            for widget in quiz_window.winfo_children():
+                widget.destroy()
+
+            if current_index.get() < len(questions):
+                question_text, choices, correct_answer = questions[current_index.get()]
+
+                tk.Label(quiz_window, text=f"Q{current_index.get() + 1}: {question_text}",
+                         wraplength=400).pack(pady=10)
+
+                answer_var = tk.StringVar(value="")  # Reset variable
+
+                radio_buttons = []
+                for key in ['a', 'b', 'c', 'd']:
+                    rb = tk.Radiobutton(quiz_window, text=f"{key}. {choices[key]}",
+                                        variable=answer_var, value=key,
+                                        anchor="w", justify="left", bg="white", indicatoron=True)
+                    rb.pack(fill="x", padx=20, pady=2)
+                    radio_buttons.append(rb)
+
+                submit_button = tk.Button(quiz_window, text="Submit")
+                submit_button.pack(pady=20)
+
+                def submit_answer():
+                    selected = answer_var.get()
+                    if selected == "":
+                        messagebox.showwarning("No Answer", "Please select an answer.")
+                        return
+
+                    # Disable further input
+                    submit_button.config(state="disabled")
+                    for rb in radio_buttons:
+                        rb.config(state="disabled")
+
+                    if selected == correct_answer:
+                        score.set(score.get() + 1)
+                        messagebox.showinfo("Result", "Correct!")
+                    else:
+                        messagebox.showerror("Result", f"Wrong! Correct answer was: {correct_answer}")
+
+                    # Advance after 1 second
+                    quiz_window.after(1000, lambda: current_index.set(current_index.get() + 1))
+                    quiz_window.after(1100, show_question)
+
+                submit_button.config(command=submit_answer)
+
+            else:
+                tk.Label(quiz_window, text="Quiz Complete!", font=("Arial", 16)).pack(pady=20)
+                tk.Label(quiz_window, text=f"Your Score: {score.get()} out of {len(questions)}",
+                         font=("Arial", 14)).pack()
+
+        show_question()
 
     except FileNotFoundError:
         tk.Label(quiz_window, text="quiz_data.txt not found!").pack(pady=20)
