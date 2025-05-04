@@ -64,6 +64,12 @@ def open_quiz_creator():
 
     tk.Button(creator_window, text="Save Question", command=save_question).pack(pady=10)
 
+    # Back to Main Menu Button
+    def back_to_menu():
+        creator_window.destroy()
+
+    tk.Button(creator_window, text="Back to Menu", command=back_to_menu).pack(pady=10)
+
 # --- Quiz Taker Window ---
 def open_quiz_taker():
     quiz_window = tk.Toplevel()
@@ -147,6 +153,12 @@ def open_quiz_taker():
                 tk.Label(quiz_window, text="Quiz Complete!", font=("Arial", 16)).pack(pady=20)
                 tk.Label(quiz_window, text=f"Your Score: {score.get()} out of {len(questions)}",
                          font=("Arial", 14)).pack()
+
+                # Back to Main Menu Button
+                def back_to_menu():
+                    quiz_window.destroy()
+
+                tk.Button(quiz_window, text="Back to Menu", command=back_to_menu).pack(pady=10)
 
         show_question()
 
