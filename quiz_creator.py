@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+import random
 
 # --- Quiz Creator Window ---
 def open_quiz_creator():
@@ -80,6 +81,11 @@ def open_quiz_taker():
         with open("quiz_data.txt", "r") as file:
             data = file.read().split("-" * 40 + "\n")
 
+        # Handle case where quiz data is empty
+        if not data or all(line.strip() == '' for line in data):
+            tk.Label(quiz_window, text="No questions found. Please create a quiz first.").pack(pady=20)
+            return
+
         questions = []
         for block in data:
             lines = block.strip().split("\n")
@@ -93,10 +99,6 @@ def open_quiz_taker():
                 }
                 correct_answer = lines[5][-1]
                 questions.append((question_text, choices, correct_answer))
-
-        if not questions:
-            tk.Label(quiz_window, text="No questions found. Please create a quiz first.").pack(pady=20)
-            return
 
         # Shuffle questions
         random.shuffle(questions)
